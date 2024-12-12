@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +108,7 @@ public class MessageController {
 	 * - If the update of the message is not successful for any reason, the response status should be 400. (Client error)
 	 */
 	@PatchMapping("messages/{messageId}")
-	public ResponseEntity<Integer> patchMessage(@PathVariable("messageId") Integer messageId, @RequestBody String messageText) {
+	public ResponseEntity<Integer> patchMessage(@PathVariable("messageId") Integer messageId, @RequestParam String messageText) {
 		Boolean exists = messageService.messageExists(messageId);
 		String str = "";
 		List<Message> msgList = new ArrayList<Message>();
@@ -124,6 +125,8 @@ public class MessageController {
 			return ResponseEntity.status(HttpStatus.OK).body(rowsUpdated);
 		}
 	}
+
+
 
 	/**
 	 * User Story 8: Get all messages posted by a particular user.

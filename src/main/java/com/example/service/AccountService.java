@@ -1,16 +1,11 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import javax.naming.AuthenticationException;
-
 import org.springframework.stereotype.Service;
-
 import com.example.entity.Account;
-// import org.springframework.beans.factory.annotation.Autowired;
-import com.example.repository.*;
-// import com.example.entity.*;
+import com.example.repository.AccountRepository;
 
 @Service
 public class AccountService {
@@ -20,8 +15,10 @@ public class AccountService {
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
-
-        /**
+	
+	
+    // Get user Account
+    /**
      * 
      * @param username
      * @param password
@@ -31,12 +28,15 @@ public class AccountService {
     	return accountRepository.findByUsernameAndPassword(username, password);
     }
     
-    public Boolean usernameExists(String username) {
-    	Boolean exists = false;
-    	Account account = accountRepository.findByUsername(username);
-    	if(!(account.getUsername() == null)) {
-    		exists = true;
-    	}
+    public boolean usernameExists(String username) {
+    	boolean exists = false;
+    	List<Account> accounts = new ArrayList<Account>();
+        accounts = accountRepository.findAll();
+        for(Account acct : accounts) {
+            if(acct.getUsername().equals(username)) {
+                exists = true;
+            }
+        }
     	return exists;
     }
     
@@ -51,12 +51,13 @@ public class AccountService {
     }
 
 
-	public Optional<Account> findById(Integer accountId) {
-		// TODO Auto-generated method stub
-		return accountRepository.findById(accountId);
-	}
-	
-    public Account persistAccount(Account account){
+//	public Optional<Account> findById(Integer accountId) {
+//		// TODO Auto-generated method stub
+//		return accountRepository.findById(accountId);
+//	}
+//	
+    public Account createAccount(Account account){
         return accountRepository.save(account);
     }
+		
 }
