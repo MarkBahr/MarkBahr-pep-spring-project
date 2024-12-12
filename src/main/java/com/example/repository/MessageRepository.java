@@ -1,5 +1,7 @@
 package com.example.repository;
 
+import java.util.List;
+
 // Import JpaRepository and Message entity
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,10 +12,12 @@ import com.example.entity.Message;
 public interface MessageRepository extends JpaRepository<Message, Integer>{
 
     // Select a message by id
-    @Query(
-        value = "SELECT * FROM message m WHERE m.messageId = :messageId", 
-        nativeQuery = true)
-    Message selectMessageById(Integer messageId);
+    // @Query(
+    //     value = "SELECT * FROM message m WHERE m.messageId = :messageId", 
+    //     nativeQuery = true)
+    // Message selectMessageById(Integer messageId);
 
-    void deleteById(Integer messageId);
+    // void deleteById(Integer messageId);
+
+	List<Message> findByPostedBy(Integer postedBy);
 }
