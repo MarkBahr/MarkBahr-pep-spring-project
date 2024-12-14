@@ -50,12 +50,6 @@ public class AccountService {
     	accountRepository.findByUsernameAndPassword(username, password);
     }
 
-
-//	public Optional<Account> findById(Integer accountId) {
-//		// TODO Auto-generated method stub
-//		return accountRepository.findById(accountId);
-//	}
-//	
     public Account createAccount(Account account){
         return accountRepository.save(account);
     }

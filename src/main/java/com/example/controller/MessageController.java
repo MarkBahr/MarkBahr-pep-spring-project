@@ -107,24 +107,25 @@ public class MessageController {
 	 * should have the updated messageText.
 	 * - If the update of the message is not successful for any reason, the response status should be 400. (Client error)
 	 */
+	
 	@PatchMapping("messages/{messageId}")
-	public ResponseEntity<Integer> patchMessage(@PathVariable("messageId") Integer messageId, @RequestParam String messageText) {
+	public ResponseEntity<Integer> patchMessage(@PathVariable("messageId") Integer messageId, @RequestBody Message message) {
 		Boolean exists = messageService.messageExists(messageId);
 		String str = "";
 		List<Message> msgList = new ArrayList<Message>();
 		if(exists == false) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} else if (messageText.equals(str)) {
+		} else if (message.getMessageText().equals(str)) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} else if (messageText.length() > 255) {
+		} else if (message.getMessageText().length() > 255) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			Message newMessage = messageService.updateMessage(messageId, messageText);
+			Message newMessage = messageService.updateMessage(messageId, message.getMessageText());
 			msgList.add(newMessage);
 			Integer rowsUpdated = msgList.size();
 			return ResponseEntity.status(HttpStatus.OK).body(rowsUpdated);
 		}
-	}
+	}	
 
 
 
