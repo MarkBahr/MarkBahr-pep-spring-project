@@ -1,13 +1,10 @@
 package com.example.controller;
 
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.PatchMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
+// Imports
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,21 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.example.service.MessageService;
 import com.example.entity.Message;
-// import java.util.ArrayList;
-// import org.springframework.web.bind.annotation.RequestMethod;
-// import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
- * found in readme.md as well as the test cases. You be required to use the @GET/POST/PUT/DELETE/etc Mapping annotations
- * where applicable as well as the @ResponseBody and @PathVariable annotations. You should
- * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
+ * This class is a controller for handling requests for messages.
  */
 @RestController
 @RequestMapping
@@ -73,19 +62,37 @@ public class MessageController {
 			return ResponseEntity.status(HttpStatus.OK).body(newMessage);
 		}
 	}
+
 	
+	/**
+	 * HANDLER method for retrieving all messages from the database.
+	 * @return all messages
+	 */
 	@GetMapping("/messages")
 	public List<Message> retrieveAllMessages() {
 		return messageService.getAllMessages();
 	}
 
+
+	/**
+     	 * HANDLER method to obtain a message by its messageId 
+     	 *
+     	 * @param messageId
+     	 * @return the message with the specified messageId if it exists. If not, response body is empty.
+     	 */
 	@GetMapping("messages/{messageId}") 
 	public Message getMessageById(@PathVariable Integer messageId){
 		Message message = messageService.getMessageById(messageId);
 		return message;
 	}
 
-	// This passes the test, but does it actually only delete 1 row?
+	
+	/**
+     	 * HANDLER method to delete a message by its messageId 
+     	 *
+     	 * @param messageId
+     	 * @return if the message existed, the response contains the number of rows updated. If not, response body is empty.
+     	 */
 	@DeleteMapping("messages/{messageId}")
 	public ResponseEntity<Integer> deleteMessage(@PathVariable("messageId") Integer messageId) {
 		Boolean exists = messageService.messageExists(messageId);
@@ -98,16 +105,20 @@ public class MessageController {
 		}
 	}
 
+	
 	/**
-	 * As a user, I should be able to submit a PATCH request on the endpoint PATCH localhost:8080/messages/{messageId}. The request body should contain a new messageText values to replace the message identified by messageId. The request body can not be guaranteed to contain any other information.
+	 * HANDLER method to submit a PATCH request /messages/{messageId}. The request body should contain a new messageText 
+  	 * values to replace the message identified by messageId. The request body can not be guaranteed to contain any other information.
 	 *
-	 * - The update of a message should be successful if and only if the message id already exists and the new messageText 
-	 * is not blank and is not over 255 characters. If the update is successful, the response body should contain the number 
+	 * The update of a message should be successful if and only if the message id already exists and the new messageText 
+	 * is not blank and is not over 255 characters. 
+    	 * @param messageId
+    	 * @param message
+    	 * @return If the update is successful, the response body should contain the number 
 	 * of rows updated (1), and the response status should be 200, which is the default. The message existing on the database 
 	 * should have the updated messageText.
-	 * - If the update of the message is not successful for any reason, the response status should be 400. (Client error)
+	 * If the update of the message is not successful for any reason, the response status should be 400. (Client error)
 	 */
-	
 	@PatchMapping("messages/{messageId}")
 	public ResponseEntity<Integer> patchMessage(@PathVariable("messageId") Integer messageId, @RequestBody Message message) {
 		Boolean exists = messageService.messageExists(messageId);
@@ -128,9 +139,10 @@ public class MessageController {
 	}	
 
 
-
 	/**
-	 * User Story 8: Get all messages posted by a particular user.
+	 * HANDLER method for user Story 8: Get all messages posted by a particular user.
+  	 * @param accountId
+    	 * @return all messages posted by the specified user (accountId)
 	 */
 	@GetMapping("accounts/{accountId}/messages")
 	public List<Message> getUserMessages(@PathVariable Integer accountId) {
