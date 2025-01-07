@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import com.example.entity.Account;
 import com.example.repository.AccountRepository;
 
+/**
+ * Service class for Accounts
+ */
 @Service
 public class AccountService {
 
@@ -17,17 +20,21 @@ public class AccountService {
     }
 	
 	
-    // Get user Account
     /**
-     * 
+     * Use the method from AccountRepository to access data.
      * @param username
      * @param password
-     * @return
+     * @return the account by specified username and password
      */
     public Account getAccount(String username, String password) {
     	return accountRepository.findByUsernameAndPassword(username, password);
     }
-    
+
+    /**
+     * Method to determine if an account exists by specified username.
+     * @param username
+     * @return true if account exists, return false if it does not exist.
+     */
     public boolean usernameExists(String username) {
     	boolean exists = false;
     	List<Account> accounts = new ArrayList<Account>();
@@ -39,17 +46,32 @@ public class AccountService {
         }
     	return exists;
     }
-    
-    // Get all accounts
+
+
+    /**
+     * Method for retrieving a list of all accounts in the database
+     * @return list of all accounts
+     */
     public List<Account> getAllAccounts() { 
         return accountRepository.findAll(); 
     }
-   
-    // Login
+
+	
+    /**
+     * Method for obtaining a user by username and password
+     * @param username
+     * @param password
+     * @throws AuthenticationException
+     */
     public void login(String username, String password) throws AuthenticationException {
     	accountRepository.findByUsernameAndPassword(username, password);
     }
 
+    /**
+     * Method for creating accounts upon user registration
+     * @param account (does not include accountId)
+     * @return the newly created account
+     */
     public Account createAccount(Account account){
         return accountRepository.save(account);
     }
