@@ -1,5 +1,9 @@
 # Project: Spring Social media blog API
 
+## Purpose
+
+I complete3d this project as part of Revature's pre-training program. The requirements for the project are described below.
+
 ## Background 
 
 Full-stack applications are typically concerned with both a front end, that displays information to the user and takes in input, and a backend, that manages persisted information.
