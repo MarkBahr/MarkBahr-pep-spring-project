@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.example.entity.Account;
 
 /**
- * A Repository interface that retrieves data from the database, using Spring Data JPA
+ * A Repository interface that retrieves Account data from the database, using Spring Data JPA
  */
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>{
