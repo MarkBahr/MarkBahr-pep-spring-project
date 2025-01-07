@@ -8,16 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.example.entity.Message;
 
+/**
+ * A Repository interface that retrieves Message data from the database, using Spring Data JPA
+ */
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer>{
 
-    // Select a message by id
-    // @Query(
-    //     value = "SELECT * FROM message m WHERE m.messageId = :messageId", 
-    //     nativeQuery = true)
-    // Message selectMessageById(Integer messageId);
-
-    // void deleteById(Integer messageId);
-
+	// Method that retrieves a message by user AccountID, referenced with postedBy
 	List<Message> findByPostedBy(Integer postedBy);
 }
